@@ -39,5 +39,12 @@ class TestRegisterProject(unittest.TestCase):
         with self.assertRaises(EnterpriseManagementException) as cm:
             enterprise_manager.register_project("A12345678", 'PR01', "Project for development", "LEGAL", "21/02/2026", 60000.00)
         self.assertEqual(str(cm.exception), "Project achronym is too short")
+
+    def test_TC9_project_achronym_too_long(self):
+        """TC7: Project achronym is too short (4)."""
+        enterprise_manager = EnterpriseManager()
+        with self.assertRaises(EnterpriseManagementException) as cm:
+            enterprise_manager.register_project("A12345678", 'PROJ1234567', "Project for development", "LEGAL", "21/02/2026", 60000.00)
+        self.assertEqual(str(cm.exception), "Project Achronym is too long")
 if __name__ == '__main__':
     unittest.main()
