@@ -52,7 +52,9 @@ class EnterpriseManager:
         if month < 1 or month > 12:
             raise EnterpriseManagementException("Month in date is not a valid value")
         if month < 2025:
-            raise EnterpriseManagementException("Date is too low")
+            raise EnterpriseManagementException("Date is too early")
+        if month > 2027:
+            raise EnterpriseManagementException("Date is too late")
         pass
 
     @staticmethod
