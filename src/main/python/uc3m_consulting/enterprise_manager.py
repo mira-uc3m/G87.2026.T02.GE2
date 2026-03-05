@@ -14,7 +14,8 @@ class EnterpriseManager:
             raise EnterpriseManagementException("CIF must be a string")
         if not self.validate_cif(company_cif):
             raise EnterpriseManagementException("CIF does not pass validation algorithm")
-
+        if not isinstance(project_achronym, str):
+            raise EnterpriseManagementException("Project achronym must be a string")
         pass
 
     @staticmethod
