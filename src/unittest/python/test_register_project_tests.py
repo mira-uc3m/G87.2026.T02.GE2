@@ -68,5 +68,12 @@ class TestRegisterProject(unittest.TestCase):
             enterprise_manager.register_project("A12345678", 'PRO03', "Inv Desc", "LEGAL", "21/02/2026", 60000.00)
         self.assertEqual(str(cm.exception), "Project description is too short")
 
+    def test_TC13_project_description_too_long(self):
+        """TC13: Project description too long (31)."""
+        enterprise_manager = EnterpriseManager()
+        with self.assertRaises(EnterpriseManagementException) as cm:
+            enterprise_manager.register_project("A12345678", 'PRO03', "project description too long 31", "LEGAL", "21/02/2026", 60000.00)
+        self.assertEqual(str(cm.exception), "Project description is too long")
+
 if __name__ == '__main__':
     unittest.main()
