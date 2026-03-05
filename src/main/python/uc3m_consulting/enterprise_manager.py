@@ -34,6 +34,8 @@ class EnterpriseManager:
             raise EnterpriseManagementException("Invalid department")
         if not isinstance(date, str):
             raise EnterpriseManagementException("Date must be a string")
+        if not isinstance(budget, float):
+            raise EnterpriseManagementException("Budget must be a float")
 
         # Extract numerical components to perform individual if-statement checks
         try:
