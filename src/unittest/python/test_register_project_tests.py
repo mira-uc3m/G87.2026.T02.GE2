@@ -75,5 +75,12 @@ class TestRegisterProject(unittest.TestCase):
             enterprise_manager.register_project("A12345678", 'PRO03', "project description too long 31", "LEGAL", "21/02/2026", 60000.00)
         self.assertEqual(str(cm.exception), "Project description is too long")
 
+    def test_TC14_department_not_a_string(self):
+        """TC14: Department is not a string."""
+        enterprise_manager = EnterpriseManager()
+        with self.assertRaises(EnterpriseManagementException) as cm:
+            enterprise_manager.register_project("A12345678", 'PRO03', "description", 123,"21/02/2026", 60000.00)
+            self.assertEqual(str(cm.exception), "Department is not a string")
+
 if __name__ == '__main__':
     unittest.main()
