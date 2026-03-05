@@ -124,6 +124,13 @@ class TestRegisterProject(unittest.TestCase):
             enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "32/05/2026",60000.00)
             self.assertEqual(str(cm.exception), "Date is too early")
 
+    def test_TC21_year_too_high_boundary(self):
+        """TC20_year_too_low: Year is too high on the boundary."""
+        enterprise_manager = EnterpriseManager()
+        with self.assertRaises(EnterpriseManagementException) as cm:
+            enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "32/05/2026",60000.00)
+            self.assertEqual(str(cm.exception), "Date is too late")
+
     def test_TC23_invalid_day_00_date(self):
         """TC23: Invalid month (00) in date."""
         enterprise_manager = EnterpriseManager()
