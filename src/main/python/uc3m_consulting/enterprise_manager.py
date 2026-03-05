@@ -16,6 +16,8 @@ class EnterpriseManager:
             raise EnterpriseManagementException("CIF does not pass validation algorithm")
         if not isinstance(project_achronym, str):
             raise EnterpriseManagementException("Project achronym must be a string")
+        if len(project_achronym) < 5:
+            raise EnterpriseManagementException("Project achronym is too short")
         pass
 
     @staticmethod
