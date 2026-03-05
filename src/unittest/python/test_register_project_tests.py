@@ -88,5 +88,13 @@ class TestRegisterProject(unittest.TestCase):
         with self.assertRaises(EnterpriseManagementException) as cm:
             enterprise_manager.register_project("A12345678", 'PRO03', "description", 'SALES',"21/02/2026", 60000.00)
             self.assertEqual(str(cm.exception), "Invalid department entry")
+
+    def test_TC16_invalid_date_format(self):
+        """TC16: Date must be a string."""
+        enterprise_manager = EnterpriseManager()
+        with self.assertRaises(EnterpriseManagementException) as cm:
+            enterprise_manager.register_project("A12345678", 'PRO03', "description", 'SALES', 1022025, 60000.00)
+            self.assertEqual(str(cm.exception), "Date must be a string")
+
 if __name__ == '__main__':
     unittest.main()
