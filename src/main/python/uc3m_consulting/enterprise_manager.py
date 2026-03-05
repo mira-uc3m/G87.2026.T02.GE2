@@ -49,6 +49,8 @@ class EnterpriseManager:
 
         if day < 1:
             raise EnterpriseManagementException("Days in date is not a valid value")
+        if day > 31:
+            raise EnterpriseManagementException("Days in date is not a valid value")
 
         pass
 
