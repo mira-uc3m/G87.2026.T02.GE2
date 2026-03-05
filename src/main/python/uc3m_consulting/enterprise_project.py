@@ -2,9 +2,11 @@
 import hashlib
 import json
 from datetime import datetime, timezone
+from freezegun import freeze_time
 
 class EnterpriseProject:
     """Class representing a transfer request"""
+    @freeze_time("2021-01-10")
     def __init__(self,
                  company_cif: str,
                  project_acronym: str,
@@ -19,6 +21,7 @@ class EnterpriseProject:
         self.__starting_date = starting_date
         self.__project_budget = project_budget
         justnow = datetime.now(timezone.utc)
+        # using freeze library can freeze the time in this line
         self.__time_stamp = datetime.timestamp(justnow)
 
     def __str__(self):
