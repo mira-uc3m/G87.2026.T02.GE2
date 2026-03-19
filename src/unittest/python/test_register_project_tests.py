@@ -159,5 +159,18 @@ class TestRegisterProject(unittest.TestCase):
                                                 1000000.01)
         self.assertEqual(str(cm.exception), "Budget is too high")
 
+    def test_TC31_duplicate_entry_error(self):
+        """TC31: Requirement CM-FR-01-O3 - Error if same CIF and Acronym already exist."""
+        # First registration (Success)
+        self.manager.register_project(
+            "B12345678", "PRO01", "10 letters", "HR", "01/01/2025", 50000.00
+        )
+        # Second registration with same CIF and Acronym (Failure)
+        with self.assertRaises(EnterpriseManagementException) as cm:
+            self.manager.register_project(
+                "B12345678", "PRO01", "different description", "HR", "02/01/2025", 55000.00
+            )
+        self.assertEqual(str(cm.exception), "Project with the same name for the same CIF already existed")
+
 if __name__ == '__main__':
     unittest.main()
