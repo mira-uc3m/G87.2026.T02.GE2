@@ -31,5 +31,29 @@ class TestRegisterProject(unittest.TestCase):
             f.write(content)
         return path
 
+    def test_TC01_valid_pdf(self):
+        """TC01: Valid JSON with .pdf extension."""
+        content = '{"PROJECT_ID":"d2a7ca3223cd13b9a61f0e092aaaa140", "FILENAME":"AB12CD34.pdf"}'
+        path = self.create_test_file("valid1.json", content)
+
+        result = self.manager.register_document(path)
+        self.assertEqual(len(result), 64) # Check if it's a SHA-256 string
+
+    def test_TC02_valid_docx(self):
+        """TC02: Valid JSON with .docx extension."""
+        content = '{"PROJECT_ID":"d2a7ca3223cd13b9a61f0e092aaaa140", "FILENAME":"AB12CD34.docx"}'
+        path = self.create_test_file("valid2.json", content)
+
+        result = self.manager.register_document(path)
+        self.assertEqual(len(result), 64)
+
+    def test_TC03_valid_docx(self):
+        """TC02: Valid JSON with .xlsx extension."""
+        content = '{"PROJECT_ID":"d2a7ca3223cd13b9a61f0e092aaaa140", "FILENAME":"AB12CD34.xlsx"}'
+        path = self.create_test_file("valid3.json", content)
+
+        result = self.manager.register_document(path)
+        self.assertEqual(len(result), 64)
+
 if __name__ == '__main__':
     unittest.main()
