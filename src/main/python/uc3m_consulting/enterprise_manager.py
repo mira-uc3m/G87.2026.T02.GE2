@@ -110,6 +110,8 @@ class EnterpriseManager:
             json.dump(data, f, indent=4)
 
         return project_id
+
+    def register_document(self , input_file: str):
         pass
 
     @staticmethod
