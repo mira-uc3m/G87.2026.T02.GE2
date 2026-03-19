@@ -151,7 +151,12 @@ class TestRegisterProject(unittest.TestCase):
         with self.assertRaises(EnterpriseManagementException) as cm:
             enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "02/13/2025", 60000.00)
         self.assertEqual(str(cm.exception), "Month in date is not a valid value")
-
+    def test_TC25_budget_must_have_2_decimals(self):
+        """TC25: Budget must have 2 decimal places."""
+        enterprise_manager = EnterpriseManager()
+        with (self.assertRaises(EnterpriseManagementException) as cm):
+            enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "02/10/2025", 60000.001)
+        self.assertEqual(str(cm.exception), "Budget must have 2 decimal places")
     def test_TC26_budget_not_float(self):
         """TC26: Budget is not a float."""
         enterprise_manager = EnterpriseManager()
