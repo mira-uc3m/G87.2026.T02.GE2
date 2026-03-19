@@ -40,6 +40,8 @@ class EnterpriseManager:
             raise EnterpriseManagementException("Budget must have 2 decimal places")
         if budget < 50000:
             raise EnterpriseManagementException("Budget is too low")
+        if budget > 1000000:
+            raise EnterpriseManagementException("Budget is too high")
 
         # Extract numerical components to perform individual if-statement checks
         try:
