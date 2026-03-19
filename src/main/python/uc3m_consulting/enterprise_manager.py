@@ -10,7 +10,7 @@ class EnterpriseManager:
     def __init__(self):
         pass
 
-    def register_project(self, company_cif: str, project_achronym: str, project_description: str, department: str, date: str, budget: float):
+    def register_project(self, company_cif: str, project_acronym: str, project_description: str, department: str, date: str, budget: float):
         """Method for registering the project"""
         # CIF Validation
         if not isinstance(company_cif, str):
@@ -18,15 +18,15 @@ class EnterpriseManager:
         if not self.validate_cif(company_cif):
             raise EnterpriseManagementException("CIF does not pass validation algorithm")
 
-        # Project Achronym Validation
-        if not isinstance(project_achronym, str):
-            raise EnterpriseManagementException("Project achronym must be a string")
-        if len(project_achronym) < 5:
-            raise EnterpriseManagementException("Project achronym is too short")
-        if len(project_achronym) > 10:
-            raise EnterpriseManagementException("Project achronym is too long")
-        if not project_achronym.isalnum():
-            raise EnterpriseManagementException("Project achronym cannot contain special characters")
+        # Project acronym Validation
+        if not isinstance(project_acronym, str):
+            raise EnterpriseManagementException("Project acronym must be a string")
+        if len(project_acronym) < 5:
+            raise EnterpriseManagementException("Project acronym is too short")
+        if len(project_acronym) > 10:
+            raise EnterpriseManagementException("Project acronym is too long")
+        if not project_acronym.isalnum():
+            raise EnterpriseManagementException("Project acronym cannot contain special characters")
 
         # Project Description Validation
         if not isinstance(project_description, str):
@@ -76,7 +76,7 @@ class EnterpriseManager:
             raise EnterpriseManagementException("Date is too late")
 
         # Start of Function Logic
-        # Load data from file and check for existing project with same CIF and Project Achronym (CM-FR-01-O3)
+        # Load data from file and check for existing project with same CIF and Project acronym (CM-FR-01-O3)
         file_path = "corporate_operations.json"
         data = []
         if os.path.exists(file_path):
@@ -87,18 +87,18 @@ class EnterpriseManager:
                     data = []
 
         for entry in data:
-            if entry["company_cif"] == company_cif and entry["achronym"] == project_achronym:
+            if entry["company_cif"] == company_cif and entry["acronym"] == project_acronym:
                 raise EnterpriseManagementException("Project with the same name for the same CIF already existed")
 
         # Generate Project ID (CM-FR-01-P2)
-        hash_input = f"{company_cif}{project_achronym}"
+        hash_input = f"{company_cif}{project_acronym}"
         project_id = hashlib.md5(hash_input.encode()).hexdigest()
 
         # Create JSON object to insert into file (CM-FR-01-O1, O2)
         new_project = {
             "project_id": project_id,
             "company_cif": company_cif,
-            "achronym": project_achronym,
+            "acronym": project_acronym,
             "description": project_description,
             "department": department,
             "date": date,
