@@ -36,8 +36,8 @@ class EnterpriseManager:
             raise EnterpriseManagementException("Date must be a string")
         if not isinstance(budget, float):
             raise EnterpriseManagementException("Budget must be a float")
-        # if not ((abs(budget * 10 - round(budget * 10)) < 0.0001 and abs(budget * 100 - round(budget * 100)) < 0.0001)):
-        #     raise EnterpriseManagementException("Budget must have 2 decimal places")
+        if not ((abs(budget * 10 - round(budget * 10)) < 0.0001 and abs(budget * 100 - round(budget * 100)) < 0.0001)):
+            raise EnterpriseManagementException("Budget must have 2 decimal places")
 
         # Extract numerical components to perform individual if-statement checks
         try:
