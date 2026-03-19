@@ -1,4 +1,7 @@
 """Module """
+import hashlib
+import json
+import os
 import re
 from .enterprise_management_exception import EnterpriseManagementException
 
@@ -71,6 +74,42 @@ class EnterpriseManager:
             raise EnterpriseManagementException("Date is too early")
         if year > 2027:
             raise EnterpriseManagementException("Date is too late")
+
+        # Start of Function Logic
+        # Load data from file and check for existing project with same CIF and Project Achronym (CM-FR-01-O3)
+        file_path = "corporate_operations.json"
+        data = []
+        if os.path.exists(file_path):
+            with open(file_path, "r", encoding="utf-8") as f:
+                try:
+                    data = json.load(f)
+                except json.JSONDecodeError:
+                    data = []
+
+        for entry in data:
+            if entry["company_cif"] == company_cif and entry["achronym"] == project_achronym:
+                raise EnterpriseManagementException("Project with the same name for the same CIF already existed")
+
+        # Generate Project ID (CM-FR-01-P2)
+        hash_input = f"{company_cif}{project_achronym}"
+        project_id = hashlib.md5(hash_input.encode()).hexdigest()
+
+        # Create JSON object to insert into file (CM-FR-01-O1, O2)
+        new_project = {
+            "project_id": project_id,
+            "company_cif": company_cif,
+            "achronym": project_achronym,
+            "description": project_description,
+            "department": department,
+            "date": date,
+            "budget": budget
+        }
+        data.append(new_project)
+
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4)
+
+        return project_id
         pass
 
     @staticmethod
