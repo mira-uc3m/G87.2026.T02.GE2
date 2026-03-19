@@ -38,6 +38,8 @@ class EnterpriseManager:
             raise EnterpriseManagementException("Budget must be a float")
         if not abs(budget - round(budget, 2)) < 1e-9:
             raise EnterpriseManagementException("Budget must have 2 decimal places")
+        if budget < 50000:
+            raise EnterpriseManagementException("Budget is too low")
 
         # Extract numerical components to perform individual if-statement checks
         try:
