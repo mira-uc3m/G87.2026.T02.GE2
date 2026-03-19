@@ -13,6 +13,36 @@ class TestRegisterProject(unittest.TestCase):
         if os.path.exists(self.filename):
             os.remove(self.filename)
 
+    def test_TC1_valid_case_min_values(self):
+        """TC1: Valid case with minimum boundary values."""
+        result = self.manager.register_project(
+            "B12345678", "PRO01", "10 letters", "HR", "01/01/2025", 50000.00
+        )
+        self.assertEqual(result, "5a3aa3b610e39ea827afd8d0988c321d")
+
+    def test_TC2_valid_case_max_description(self):
+        """TC2: Valid case with 30-letter description and FINANCE dept."""
+        result = self.manager.register_project(
+            "B12345678", "PRO02CARTE", "thirty letter description test",
+            "FINANCE", "02/02/2026", 50000.01
+        )
+        self.assertEqual(result, "4750d3c3baf967a10ec433481bc035b0")
+
+    def test_TC3_valid_case_max_budget(self):
+        """TC3: Valid case with max budget and LEGAL dept."""
+        result = self.manager.register_project(
+            "B12345678", "PRO012", "eleven test", "LEGAL", "30/11/2027", 1000000.00
+        )
+        self.assertEqual(result, "45fbdd5a7826d17bafb834d6fc208adc")
+
+    def test_TC4_valid_case_max_acronym(self):
+        """TC4: Valid case with max acronym length and LOGISTICS dept."""
+        result = self.manager.register_project(
+            "B12345678", "PRO012345", "twenty-nine letters test test",
+            "LOGISTICS", "31/12/2026", 999999.99
+        )
+        self.assertEqual(result, "cdeeabd29fa9259f168922a3fa47841e")
+
     def test_TC5_invalid_cif_not_string(self):
         """TC5: CIF must be a string."""
         with self.assertRaises(EnterpriseManagementException) as cm:
