@@ -117,6 +117,27 @@ class TestRegisterProject(unittest.TestCase):
             enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "32/05/2026", 60000.00)
         self.assertEqual(str(cm.exception), "Days in date is not a valid value")
 
+    def test_TC20_year_too_low(self):
+        """TC20_year_too_low: Year is too low."""
+        enterprise_manager = EnterpriseManager()
+        with self.assertRaises(EnterpriseManagementException) as cm:
+            enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "01/01/2024",60000.00)
+            self.assertEqual(str(cm.exception), "Date is too early")
+
+    def test_TC21_year_too_high_boundary(self):
+        """TC20_year_too_low: Year is too high on the boundary."""
+        enterprise_manager = EnterpriseManager()
+        with self.assertRaises(EnterpriseManagementException) as cm:
+            enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "31/12/2028",60000.00)
+            self.assertEqual(str(cm.exception), "Date is too late")
+
+    def test_TC22_year_too_high_not_boundary(self):
+        """TC20_year_too_low: Year is too high not on the boundary."""
+        enterprise_manager = EnterpriseManager()
+        with self.assertRaises(EnterpriseManagementException) as cm:
+            enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "01/01/2029",60000.00)
+            self.assertEqual(str(cm.exception), "Date is too late")
+
     def test_TC23_invalid_day_00_date(self):
         """TC23: Invalid month (00) in date."""
         enterprise_manager = EnterpriseManager()
@@ -131,5 +152,18 @@ class TestRegisterProject(unittest.TestCase):
             enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "02/13/2025", 60000.00)
         self.assertEqual(str(cm.exception), "Month in date is not a valid value")
 
+    def test_TC26_budget_not_float(self):
+        """TC26: Budget is not a float."""
+        enterprise_manager = EnterpriseManager()
+        with self.assertRaises(EnterpriseManagementException) as cm:
+            enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "02/10/2025",'60000')
+        self.assertEqual(str(cm.exception), "Budget must be a float")
+
+    def test_TC27_budget_not_valid_format(self):
+        """TC27: Budget is not a valid format."""
+        enterprise_manager = EnterpriseManager()
+        with self.assertRaises(EnterpriseManagementException) as cm:
+            enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "02/10/2025",60000.001)
+        self.assertEqual(str(cm.exception), "Budget must have 2 decimal places")
 if __name__ == '__main__':
     unittest.main()

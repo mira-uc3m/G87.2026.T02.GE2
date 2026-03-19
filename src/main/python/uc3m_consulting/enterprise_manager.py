@@ -34,6 +34,10 @@ class EnterpriseManager:
             raise EnterpriseManagementException("Invalid department")
         if not isinstance(date, str):
             raise EnterpriseManagementException("Date must be a string")
+        if not isinstance(budget, float):
+            raise EnterpriseManagementException("Budget must be a float")
+        if not (abs(budget * 10 - round(budget * 10)) < 0.0001 and abs(budget * 100 - round(budget * 100)) < 0.0001):
+            raise EnterpriseManagementException("Budget must have 2 decimal places")
 
         # Extract numerical components to perform individual if-statement checks
         try:
@@ -51,7 +55,10 @@ class EnterpriseManager:
             raise EnterpriseManagementException("Days in date is not a valid value")
         if month < 1 or month > 12:
             raise EnterpriseManagementException("Month in date is not a valid value")
-
+        if year < 2025:
+            raise EnterpriseManagementException("Date is too early")
+        if year > 2027:
+            raise EnterpriseManagementException("Date is too late")
         pass
 
     @staticmethod
