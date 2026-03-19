@@ -173,5 +173,14 @@ class TestRegisterProject(unittest.TestCase):
             enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "02/10/2025",
                                                 49999.99)
         self.assertEqual(str(cm.exception), "Budget is too low")
+
+    def test_TC29_budget_too_high(self):
+        """TC29: Budget is too high."""
+        enterprise_manager = EnterpriseManager()
+        with self.assertRaises(EnterpriseManagementException) as cm:
+            enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "02/10/2025",
+                                                1000000.01)
+        self.assertEqual(str(cm.exception), "Budget is too high")
+
 if __name__ == '__main__':
     unittest.main()
