@@ -165,5 +165,13 @@ class TestRegisterProject(unittest.TestCase):
         with self.assertRaises(EnterpriseManagementException) as cm:
             enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "02/10/2025",60000.001)
         self.assertEqual(str(cm.exception), "Budget must have 2 decimal places")
+
+    def test_TC28_budget_too_low(self):
+        """TC28: Budget is too low."""
+        enterprise_manager = EnterpriseManager()
+        with self.assertRaises(EnterpriseManagementException) as cm:
+            enterprise_manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "02/10/2025",
+                                                49999.99)
+        self.assertEqual(str(cm.exception), "Budget is too low")
 if __name__ == '__main__':
     unittest.main()
