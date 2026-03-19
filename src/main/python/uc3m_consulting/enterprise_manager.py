@@ -9,11 +9,13 @@ class EnterpriseManager:
 
     def register_project(self, company_cif: str, project_achronym: str, project_description: str, department: str, date: str, budget: float):
         """Method for registering the project"""
-        # TC5: Validate Type
+        # CIF Validation
         if not isinstance(company_cif, str):
             raise EnterpriseManagementException("CIF must be a string")
         if not self.validate_cif(company_cif):
             raise EnterpriseManagementException("CIF does not pass validation algorithm")
+
+        # Project Achronym Validation
         if not isinstance(project_achronym, str):
             raise EnterpriseManagementException("Project achronym must be a string")
         if len(project_achronym) < 5:
@@ -22,16 +24,22 @@ class EnterpriseManager:
             raise EnterpriseManagementException("Project achronym is too long")
         if not project_achronym.isalnum():
             raise EnterpriseManagementException("Project achronym cannot contain special characters")
+
+        # Project Description Validation
         if not isinstance(project_description, str):
             raise EnterpriseManagementException("Project description must be a string")
         if len(project_description) < 10:
             raise EnterpriseManagementException("Project description is too short")
         if len(project_description) > 30:
             raise EnterpriseManagementException("Project description is too long")
+
+        # Department Validation
         if not isinstance(department, str):
             raise EnterpriseManagementException("Department must be a string")
         if department not in ['LEGAL', 'HR', 'FINANCE', 'LOGISTICS']:
             raise EnterpriseManagementException("Invalid department")
+
+        # Date Validation
         if not isinstance(date, str):
             raise EnterpriseManagementException("Date must be a string")
         if not isinstance(budget, float):
