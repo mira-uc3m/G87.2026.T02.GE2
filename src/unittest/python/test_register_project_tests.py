@@ -55,29 +55,29 @@ class TestRegisterProject(unittest.TestCase):
             self.manager.register_project("AA123456B", "PRO03", "first test", "LOGISTICS", "03/01/2026", 60000.00)
         self.assertEqual(str(cm.exception), "CIF does not pass validation algorithm")
 
-    def test_TC7_project_achronym_not_string(self):
-        """TC7: Project achronym must be a string."""
+    def test_TC7_project_acronym_not_string(self):
+        """TC7: Project acronym must be a string."""
         with self.assertRaises(EnterpriseManagementException) as cm:
             self.manager.register_project("B12345678", True, "second test", "HR", "4/1/2026", 60000.00)
-        self.assertEqual(str(cm.exception), "Project achronym must be a string")
+        self.assertEqual(str(cm.exception), "Project acronym must be a string")
 
-    def test_TC8_project_achronym_too_short(self):
-        """TC8: Project achronym is too short (4)."""
+    def test_TC8_project_acronym_too_short(self):
+        """TC8: Project acronym is too short (4)."""
         with self.assertRaises(EnterpriseManagementException) as cm:
             self.manager.register_project("A12345678", 'PR01', "Project for development", "LEGAL", "21/02/2026", 60000.00)
-        self.assertEqual(str(cm.exception), "Project achronym is too short")
+        self.assertEqual(str(cm.exception), "Project acronym is too short")
 
-    def test_TC9_project_achronym_too_long(self):
-        """TC9: Project achronym is too long (10)."""
+    def test_TC9_project_acronym_too_long(self):
+        """TC9: Project acronym is too long (10)."""
         with self.assertRaises(EnterpriseManagementException) as cm:
             self.manager.register_project("A12345678", 'PROJ1234567', "Project for development", "LEGAL", "21/02/2026", 60000.00)
-        self.assertEqual(str(cm.exception), "Project achronym is too long")
+        self.assertEqual(str(cm.exception), "Project acronym is too long")
 
-    def test_TC10_project_achronym_invalid_characters(self):
-        """TC10: Project achronym contains invalid characters."""
+    def test_TC10_project_acronym_invalid_characters(self):
+        """TC10: Project acronym contains invalid characters."""
         with self.assertRaises(EnterpriseManagementException) as cm:
             self.manager.register_project("A12345678", 'PROJ_1!', "Project for development", "LEGAL", "21/02/2026", 60000.00)
-        self.assertEqual(str(cm.exception), "Project achronym cannot contain special characters")
+        self.assertEqual(str(cm.exception), "Project acronym cannot contain special characters")
 
     def test_TC11_project_description_not_string(self):
         """TC11: Project description not a string."""
