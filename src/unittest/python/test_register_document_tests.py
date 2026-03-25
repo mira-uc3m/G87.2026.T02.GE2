@@ -2,8 +2,16 @@
 import unittest
 import json
 import os
-from ...main.python.uc3m_consulting.enterprise_manager import EnterpriseManager
-from ...main.python.uc3m_consulting.enterprise_management_exception import EnterpriseManagementException
+import sys
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+main_python_path = os.path.abspath(os.path.join(current_dir, "../../main/python"))
+
+if main_python_path not in sys.path:
+    sys.path.insert(0, main_python_path)
+
+from uc3m_consulting.enterprise_manager import EnterpriseManager
+from uc3m_consulting.enterprise_management_exception import EnterpriseManagementException
 
 class TestRegisterProject(unittest.TestCase):
     def setUp(self):
