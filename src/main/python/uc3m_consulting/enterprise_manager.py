@@ -3,6 +3,7 @@ import hashlib
 import json
 import os
 import re
+from datetime import datetime
 from .enterprise_management_exception import EnterpriseManagementException
 
 class EnterpriseManager:
@@ -63,6 +64,7 @@ class EnterpriseManager:
             day = int(date_parts[0])
             month = int(date_parts[1])
             year = int(date_parts[2])
+
         except (ValueError, IndexError):
             raise EnterpriseManagementException("Invalid date format")
 
@@ -74,7 +76,10 @@ class EnterpriseManager:
             raise EnterpriseManagementException("Date is too early")
         if year > 2027:
             raise EnterpriseManagementException("Date is too late")
-
+        project_date = datetime(year, month, day)
+        print(project_date)
+        if datetime.now() > project_date:
+            raise EnterpriseManagementException("Today's date is after the project's date")
         # Start of Function Logic
         # Load data from file and check for existing project with same CIF and Project acronym (CM-FR-01-O3)
         file_path = "corporate_operations.json"
@@ -110,6 +115,8 @@ class EnterpriseManager:
             json.dump(data, f, indent=4)
 
         return project_id
+
+    def register_document(self , input_file: str):
         pass
 
     @staticmethod

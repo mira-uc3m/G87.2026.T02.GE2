@@ -1,6 +1,7 @@
 """class for testing the register_project method"""
 import unittest
 import json
+from freezegun import freeze_time
 import os
 from ...main.python.uc3m_consulting.enterprise_manager import EnterpriseManager
 from ...main.python.uc3m_consulting.enterprise_management_exception import EnterpriseManagementException
@@ -13,6 +14,7 @@ class TestRegisterProject(unittest.TestCase):
         if os.path.exists(self.filename):
             os.remove(self.filename)
 
+    @freeze_time("2024-01-01")
     def test_TC1_valid_case_min_values(self):
         """TC1: Valid case with minimum boundary values."""
         result = self.manager.register_project(
@@ -20,6 +22,7 @@ class TestRegisterProject(unittest.TestCase):
         )
         self.assertEqual(result, "5a3aa3b610e39ea827afd8d0988c321d")
 
+    @freeze_time("2024-01-01")
     def test_TC2_valid_case_max_description(self):
         """TC2: Valid case with 30-letter description and FINANCE dept."""
         result = self.manager.register_project(
@@ -28,6 +31,7 @@ class TestRegisterProject(unittest.TestCase):
         )
         self.assertEqual(result, "4750d3c3baf967a10ec433481bc035b0")
 
+    @freeze_time("2024-01-01")
     def test_TC3_valid_case_max_budget(self):
         """TC3: Valid case with max budget and LEGAL dept."""
         result = self.manager.register_project(
@@ -35,6 +39,7 @@ class TestRegisterProject(unittest.TestCase):
         )
         self.assertEqual(result, "45fbdd5a7826d17bafb834d6fc208adc")
 
+    @freeze_time("2024-01-01")
     def test_TC4_valid_case_max_acronym(self):
         """TC4: Valid case with max acronym length and LOGISTICS dept."""
         result = self.manager.register_project(
@@ -163,6 +168,15 @@ class TestRegisterProject(unittest.TestCase):
             self.manager.register_project("B12345677", 'PRO00', "Valid description length", "HR", "02/13/2025", 60000.00)
         self.assertEqual(str(cm.exception), "Month in date is not a valid value")
 
+    @freeze_time("2026-01-01")
+    def test_TC25_date_too_low(self):
+        """TC25_date_too_low: Date is too low."""
+        past_date = "15/05/2025"
+        with self.assertRaises(EnterpriseManagementException) as cm:
+            self.manager.register_project("A12345678", "PROJ123", "Valid Description", "HR", past_date, 60000.00)
+
+        self.assertEqual(str(cm.exception), "Today's date is after the project's date")
+
     def test_TC26_budget_not_float(self):
         """TC26: Budget is not a float."""
         with self.assertRaises(EnterpriseManagementException) as cm:
@@ -189,6 +203,7 @@ class TestRegisterProject(unittest.TestCase):
                                                 1000000.01)
         self.assertEqual(str(cm.exception), "Budget is too high")
 
+    @freeze_time("2024-01-01")
     def test_TC31_duplicate_entry_error(self):
         """TC31: Requirement CM-FR-01-O3 - Error if same CIF and Acronym already exist."""
         # First registration (Success)
