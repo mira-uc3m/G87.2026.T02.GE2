@@ -212,6 +212,21 @@ class TestRegisterProject(unittest.TestCase):
         self.assertEqual(str(cm.exception), "Budget is too high")
 
     @freeze_time("2024-01-01")
+    def test_TC30_check_output_is_valid(self):
+        """TC30: Check output is valid (MD5 hash and file persistence)."""
+        # Execution
+        result = self.manager.register_project(
+            "B12345678", "PRO01", "10 letters", "HR", "01/01/2025", 50000.00
+        )
+
+        # Assertion ECV21: Check returned Project ID
+        self.assertEqual(result, "5a3aa3b610e39ea827afd8d0988c321d")
+
+        # Assertion ECV22: Check file persistence
+        file_path = "corporate_operations.json"
+        self.assertTrue(os.path.exists(file_path))
+
+    @freeze_time("2024-01-01")
     def test_TC31_duplicate_entry_error(self):
         """TC31: Requirement CM-FR-01-O3 - Error if same CIF and Acronym already exist."""
         # First registration (Success)
